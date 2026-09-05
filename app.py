@@ -1,7 +1,8 @@
 import streamlit as st
 import pickle
+import gzip
 import requests
-import time
+import time 
 
 def fetch_poster(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=db3176d57d3190d50452687101512b04&language=en-US"
@@ -23,7 +24,11 @@ def fetch_poster(movie_id):
     return "https://via.placeholder.com/500x750?text=No+Image"
 
 movies = pickle.load(open('movies.pkl', 'rb'))
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+import gzip
+
+similarity = pickle.load(
+    gzip.open('similarity.pkl.gz', 'rb')
+)
 
 def recommend(movie):
     movie_index = movies[movies['title'] == movie].index[0]
